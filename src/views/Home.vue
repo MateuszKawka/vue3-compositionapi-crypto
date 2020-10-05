@@ -1,18 +1,49 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <SavedCoins/>
+    <LoadingSpinner v-if="isLoading"/>
+    <table class="highlight">
+      <thead>
+      <tr>
+        <th class="left-align">Name</th>
+        <th class="right-align">Price</th>
+        <th class="left-align hide-on-small-only">Market cap</th>
+        <th class="right-align"><TimePeriodDropdown /></th>
+      </tr>
+      </thead>
+      <tbody>
+      <CoinPreview v-for="coin in coins" :key="coin.id" :coin="coin"/>
+      </tbody>
+    </table>
+
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import CoinPreview from "@/components/CoinPreview";
+import SavedCoins from "@/components/SavedCoins"
+import {computed, onMounted} from "vue"
+import {useStore} from "vuex";
+import {GET_COINS} from "@/store/actions.types.js"
+import TimePeriodDropdown from "@/components/TimePeriodDropdown";
+import LoadingSpinner from "@/components/LoadingSpinner"
 export default {
-  name: 'Home',
   components: {
-    HelloWorld
+    CoinPreview,
+    SavedCoins,
+    TimePeriodDropdown,
+    LoadingSpinner
+  },
+  setup() {
+    const store = useStore();
+
+    onMounted(() => {
+      store.dispatch(GET_COINS);
+    })
+    return {
+      coins: computed(() => store.state.coins),
+      isLoading: computed(() => store.state.isLoading)
+    }
   }
 }
 </script>

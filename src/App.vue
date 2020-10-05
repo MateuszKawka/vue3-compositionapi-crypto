@@ -1,30 +1,27 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="container">
+    <h1 class="app-title">Vue 3 crypto currency app</h1>
+    <router-view/>
   </div>
-  <router-view/>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import M from 'materialize-css';
+import {onBeforeMount} from "vue"
 
-#nav {
-  padding: 30px;
+export default {
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  setup() {
+    onBeforeMount(() =>  M.AutoInit())
   }
 }
+</script>
+
+<style>
+.app-title {
+  font-size: 1.6rem;
+  text-align: center;
+  font-weight: 700;
+}
+
 </style>
